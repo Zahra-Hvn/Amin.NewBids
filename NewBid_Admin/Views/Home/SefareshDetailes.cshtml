@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "SefareshDetailes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">اطلاعات سفارش</h3>
+    </div>
+    <div role="form">
+        <div class="box-body">
+            <div class="form-group">
+                @*<img src="http://127.0.0.1/@Model.getproductEdit.Imageurl" alt="Alternate Text" />*@
+            </div>
+            <div class="form-group">
+                مشتری:
+            </div>
+            <div class="form-group">
+                عنوان سفارش:
+            </div>
+            <div class="form-group">
+                کارخانه:
+            </div>
+            <div class="form-group">
+                قیمت واحد:
+            </div>
+            <div class="form-group">
+                قیمت کل:
+            </div>
+            <div class="form-group">
+                تاریخ سفارش:
+            </div>
+            <div class="form-group">
+                وضعیت:
+            </div>
+        </div>
+    </div>
+</div>
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">ویرایش محصول</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+
+    <div role="form">
+        <div class="box-body">
+            <div class="form-group">
+                <input type="hidden" name="pid" value="@Model.getproductEdit.ProductId" />
+                <div class="form-group">
+                    <label></label>
+                    <select id="ostan" name="ostanID" class="form-control select2" style="width: 100%;">
+
+                        <option selected="selected" value="1">تایید شده</option>
+                        <option selected="selected" value="2">در حال بارگیری</option>
+                        <option selected="selected" value="3">تحویل گرفته شده توسظ مشتری </option>
+
+
+
+
+                    </select>
+                </div>
+
+
+
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">اعمال تغییرات</button>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">انصراف</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+

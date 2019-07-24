@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuiBidsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Auction">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Auction_Time" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="Close_Time" Type="Int32" Nullable="false" />
+    <Property Name="Reserve_Price" Type="Int32" />
+    <Property Name="EndPrice" Type="Int32" />
+    <Property Name="CurrentBid_Id" Type="Int32" />
+    <Property Name="Current_UserId" Type="Int32" />
+    <Property Name="StartStatus" Type="Boolean" Nullable="false" />
+    <Property Name="IsClose" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Auction_Product" FromRole="Auction" ToRole="Product" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Auction_User" FromRole="Auction" ToRole="User" />
+    <NavigationProperty Name="AuctionLogs" Relationship="Self.FK_LogsAuction_Auction" FromRole="Auction" ToRole="AuctionLogs" />
+  </EntityType>
+  <EntityType Name="AuctionLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="AuctionId" Type="Int32" Nullable="false" />
+    <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TypeBid" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="Auction" Relationship="Self.FK_LogsAuction_Auction" FromRole="AuctionLogs" ToRole="Auction" />
+    <NavigationProperty Name="User" Relationship="Self.FK_LogsAuction_User" FromRole="AuctionLogs" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryCode" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Country_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_User_Countries" FromRole="Countries" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Model_Year" Type="Byte" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="Img" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Auctions" Relationship="Self.FK_Auction_Product" FromRole="Product" ToRole="Auction" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Lname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="VoucherBid" Type="Int32" />
+    <Property Name="RealBid" Type="Int32" />
+    <Property Name="LastLogin" Type="DateTime" Precision="3" />
+    <Property Name="CountryId" Type="Int32" />
+    <Property Name="HideLocation" Type="Boolean" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Auctions" Relationship="Self.FK_Auction_User" FromRole="User" ToRole="Auction" />
+    <NavigationProperty Name="AuctionLogs" Relationship="Self.FK_LogsAuction_User" FromRole="User" ToRole="AuctionLogs" />
+    <NavigationProperty Name="Country" Relationship="Self.FK_User_Countries" FromRole="User" ToRole="Countries" />
+  </EntityType>
+  <Association Name="FK_Auction_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Auction" Type="Self.Auction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Auction">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Auction_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Auction" Type="Self.Auction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Auction">
+        <PropertyRef Name="Current_UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogsAuction_Auction">
+    <End Role="Auction" Type="Self.Auction" Multiplicity="1" />
+    <End Role="AuctionLogs" Type="Self.AuctionLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Auction">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AuctionLogs">
+        <PropertyRef Name="AuctionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogsAuction_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="AuctionLogs" Type="Self.AuctionLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AuctionLogs">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Countries">
+    <End Role="Countries" Type="Self.Country" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Countries">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuiBidsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Auctions" EntityType="Self.Auction" />
+    <EntitySet Name="AuctionLogs" EntityType="Self.AuctionLog" />
+    <EntitySet Name="Countries" EntityType="Self.Country" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_Auction_Product" Association="Self.FK_Auction_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Auction" EntitySet="Auctions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Auction_User" Association="Self.FK_Auction_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Auction" EntitySet="Auctions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogsAuction_Auction" Association="Self.FK_LogsAuction_Auction">
+      <End Role="Auction" EntitySet="Auctions" />
+      <End Role="AuctionLogs" EntitySet="AuctionLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogsAuction_User" Association="Self.FK_LogsAuction_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="AuctionLogs" EntitySet="AuctionLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Countries" Association="Self.FK_User_Countries">
+      <End Role="Countries" EntitySet="Countries" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

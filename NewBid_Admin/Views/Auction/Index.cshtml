@@ -1,0 +1,134 @@
+﻿@using DataLayer.ViewModels
+@using PagedList.Mvc;
+@model PagedList.IPagedList<AuctionViewModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@*<link href="~/Content/bootstrap.css" rel="stylesheet" />*@
+<!-- Main content -->
+<!-- Main row -->
+<div class="col-xs-12" onload='alert("توجه!!! پنل کاربری ادمین بصورت آزمایشی میباشد");'>
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">محصولات</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>شناسه</th>
+                        <th>نام محصول</th>
+                        <th>عکس</th>
+                        <th>زمان باقی مانده </th>
+                        <th>فعال/غیرفعال</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>
+                            @item.Title
+                        </td>
+                        <td>@item.Image</td>
+                        <td>
+                            <span id="time @item.Id">  @item.Str_AuctionTime</span>
+                           
+                            <a onclick="RefreshTime(@item.Id)"> <img width="19" src="~/Content/img/2b48e1bc.png" /></a>
+                        </td>
+                        <td> <a href="/Home/detailes/?pid=@item.Id">مشاهده جزییات</a></td>
+                        <td>
+                            <span>غیرفعال کردن</span> 
+                            <input type="checkbox" value="@item.IsActive" onchange="ChangeStatus(@item.Id)"/>
+                        </td>
+                    </tr>
+                    }
+
+
+                </tbody>
+
+            </table>
+        </div>
+            <div class="">
+
+                @Html.PagedListPager(Model, page => Url.Action("Index","Auction",
+                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}),
+                    new PagedListRenderOptions()
+                    {
+                        LiElementClasses = new List<string> { "myClass", "" }
+                    })
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            </div>
+        <!-- /.box-body -->
+    </div>
+</div>
+
+<!-- /.row (main row) -->
+
+<script src="~/Content/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="~/Content/AdminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script src="~/Content/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="~/Content/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="~/Content/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="~/Content/AdminLTE/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="~/Content/AdminLTE/dist/js/demo.js"></script>
+
+<script>
+    $(function () {
+        $('#example1').DataTable();
+        //$('#example2').DataTable({
+        //    'paging': true,
+        //    'lengthChange': false,
+        //    'searching': false,
+        //    'ordering': true,
+        //    'info': true,
+        //    'autoWidth': false
+        //});
+    })
+    function RefreshTime(id) {
+        $.ajax({
+            type: "POST",
+            url: "/Auction/GetAuctiontime/",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                var val = "time " + id;
+                var j = document.getElementById(val);
+                $(j).html(result);
+            },
+            error: function () {
+                return false;
+            }
+        });
+    }
+    function ChangeStatus(id) {
+        $.ajax({
+            type: "POST",
+            url: "/Auction/ChangeStatus/",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                var val = "time " + id;
+                var j = document.getElementById(val);
+                $(j).html(result);
+            },
+            error: function () {
+                return false;
+            }
+        });
+    }
+</script>

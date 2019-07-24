@@ -1,0 +1,190 @@
+﻿@using Datalayer.ViewModels
+@model vmMain
+@{
+    ViewBag.Title = "Addproduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">ثبت محصول</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    @using (Html.BeginForm("Addproduct", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div role="form">
+            <div class="box-body">
+                <div class="form-group">
+
+                    <div class="form-group">
+                        <label>استان</label>
+                        <select id="ostan" name="ostanID" class="form-control select2" style="width: 100%;">
+                            @foreach (var item in Model.allcity)
+                            {
+                                <option selected="selected" value="@item.CountryID">@item.CountryTitle</option>
+
+                            }
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>شهرستان</label>
+                        <select id="sh" name="shid" class="form-control select2" style="width: 100%;">
+                            <option id="h" selected="selected">انتخاب نشده</option>
+
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>دسته بندی</label>
+                        <select id="ct" name="cateMainId" class="form-control select2" style="width: 100%;">
+                            @foreach (var item in Model.getCate)
+                            {
+                                <option value="@item.Id" id="cat" selected="selected">@item.CateTitle</option>
+
+                            }
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>نوع محصول</label>
+                        <select id="mysub" name="SubCode" class="form-control select2" style="width: 100%;">
+                            <option id="tp" selected="selected">تهران</option>
+
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>کارخانه</label>
+                        <select id="fk" name="fid" class="form-control select2" style="width: 100%;">
+                            <option selected="selected">تهران</option>
+
+                        </select>
+                    </div>
+
+                    @foreach (var item in Model.getprop)
+                    {
+                          <div class="form-group">
+                        <label> @item.Title </label>
+                        <input type="hidden" name="proptitle" value="@item.Title" />
+                        <input type="text" required class="form-control" name="propval" />
+                    </div>
+                    }
+                  
+
+                    <div class="form-group">
+                        <label> قیمت  محصول به تومان</label>
+                        <input type="text" required class="form-control" name="price" />
+                    </div>
+                    <div class="form-group">
+                        <label>عنوان محصول</label>
+                        <input type="text" required class="form-control" name="productTitle" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>توضیحات محصول</label>
+
+
+                        <!-- tools box -->
+                        <!-- /. tools -->
+                        <!-- /.box-header -->
+                        <div class="box-body pad">
+                            <div>
+                                <textarea required name="Caption" id="mytextarea" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"> این ویرایشگر راست چین و فارسی شده و تنظیمات آن به صورت اختصاصی تنظیم شده است...</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputFile">ارسال عکس</label>
+             
+                    <input name="image4" type="file" id="exampleInputFile">
+                </div>
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">ارسال</button>
+            </div>
+        </div>
+    }
+        @*<img src="D://myimage/photo_2019-01-21_06-07-40.jpg_Product_1007.jpg" alt="Alternate Text" />*@
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#ostan').change(function () {
+            var sid = document.getElementById("ostan").value;
+           
+            $.post("/Home/GetShahrestan", { sid: sid }, function (data, status) {
+                $('#sh').html('');
+                for (var i = 0; i < data.length; i++) {
+                    var obj = data[i];
+                    $('#sh').append("<option id='h' value=" + obj.ID + " selected='selected'> " + obj.ShahrestanTitle + "</option > ");
+
+                }
+            });
+        });
+
+    });
+
+
+    $(document).ready(function () {
+        $('#ct').change(function () {
+            var subid = document.getElementById("ct").value;
+           
+            $.post("/Home/getsub", { subid: subid }, function (data, status) {
+                $('#mysub').html('');
+                for (var i = 0; i < data.length; i++) {
+                    var obj = data[i];
+                    $('#mysub').append("<option id='cat' value=" + obj.Id + " selected='selected'> " + obj.subTitle + "</option > ");
+
+                }
+            });
+        });
+
+    });
+
+
+
+    $(document).ready(function () {
+        $('#sh').change(function () {
+            var fid = document.getElementById("sh").value;
+         
+            $.post("/Home/getfactory", { fid: fid }, function (data, status) {
+                $('#fk').html('');
+                for (var i = 0; i < data.length; i++) {
+                    var obj = data[i];
+                    $('#fk').append("<option id='h' value=" + obj.Id + " selected='selected'> " + obj.FTitle + "</option > ");
+
+                }
+            });
+        });
+
+    });
+</script>
+<script src="~/Content/AdminLTE/bower_components/ckeditor/ckeditor.js"></script>
+<script src="~/Content/AdminLTE/bower_components/tinymce/tinymce.min.js"></script>
+
+<script>
+    tinymce.init({
+        selector: 'textarea#mytextarea',
+        plugins: 'advlist autolink link lists preview table code pagebreak',
+        menubar: false,
+        language: 'fa',
+        height: 300,
+        relative_urls: false,
+        toolbar: 'undo redo | removeformat preview code | fontsizeselect bullist numlist | alignleft aligncenter alignright alignjustify | bold italic | pagebreak table link',
+    });
+    $(function () {
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('editor1')
+        //bootstrap WYSIHTML5 - text editor
+        $('.textarea').wysihtml5()
+    })
+</script>

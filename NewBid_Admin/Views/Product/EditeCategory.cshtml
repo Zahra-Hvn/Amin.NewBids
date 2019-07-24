@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "EditeCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-xs-12">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">دسته بندی</h3>
+        </div>
+        <!-- /.box-header -->
+        @using (Html.BeginForm("EditeCategory", "Product", FormMethod.Post))
+        {
+            <div class="box-body">
+
+                <input type="text" name="CName" value="@ViewBag.m1" />
+                <input type="hidden" name="CateId" value="@ViewBag.m2" />
+
+                <input type="submit" class="btn btn-info" name="name" value="ثبت ویرایش" />
+
+            </div>
+        }
+
+        <!-- /.box-body -->
+    </div>
+</div>
+

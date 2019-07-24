@@ -1,0 +1,178 @@
+﻿@using Datalayer.ViewModels
+@model vmMain
+@{
+    ViewBag.Title = "AddAdmin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*@using (Html.BeginForm("EditAdminUser", "Home", FormMethod.Post))
+    {*@
+@using (Html.BeginForm("AddAdminSubmit2", "Home", FormMethod.Post))
+{
+    <div class="col-md-12">
+
+
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+
+                <li><a href="#activity">اطلاعات هویتی</a></li>
+            </ul>
+            
+            <div class="tab-content">
+              
+                <!-- /.tab-pane -->
+                <!-- /.tab-pane -->
+                <div class="" id="activity">
+                    <div class="form-horizontal">
+                        @*<div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label">نام و نام خانوادگی</label>
+            <div class="col-sm-10">
+                <input required type="text" value="" name="fullname" class="form-control" id="inputName" placeholder="نام و نام خانوادگی">
+            </div>
+        </div>*@
+
+
+
+                        @if (TempData["Error"] != null)
+                        {
+                            <h5 style="color:red">@TempData["Error"]</h5>
+
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">ایمیل</label>
+                                <div class="col-sm-10" >
+                                    <input required style="border-color:red;direction:rtl" type="email" value="" name="email" class="form-control" id="inputEmail" placeholder="ایمیل">
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">ایمیل</label>
+                                <div class="col-sm-10" >
+                                    <input required type="email" value="" name="email" class="form-control" id="inputEmail" placeholder="ایمیل">
+                                </div>
+                            </div>
+                        }
+                        @*<div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label">موبایل</label>
+            <div class="col-sm-10">
+                <input required type="text" value="" name="tell" class="form-control" id="inputName" placeholder="موبایل">
+            </div>
+        </div>*@
+                        @*<div class="form-group">
+            <label for="inputExperience" class="col-sm-2 control-label">آدرس</label>
+            <div class="col-sm-10">
+                <textarea required name="address" class="form-control" id="inputExperience" placeholder="آدرس"></textarea>
+            </div>
+        </div>*@
+                        <div class="form-group">
+                            <label for="inputSkills" class="col-sm-2 control-label">رمز</label>
+                            <div class="col-sm-10">
+                                <input required type="text" name="pass"
+                                       class="form-control" id="inputSkills" value="" placeholder="رمز">
+                            </div>
+                        </div>
+
+
+                        @*<div class="form-group">
+            <label for="inputSkills" class="col-sm-2 control-label">سطوح دسترسی</label>
+            <div class="col-sm-10">
+                <select id="EmpList" multiple="multiple" class="form-control">
+                    <option value="value">text1</option>
+                    <option value="value">text2</option>
+
+                    <option value="value">text3</option>
+
+                </select>
+            </div>
+        </div>*@
+
+
+
+                    </div>
+
+
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div>
+
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+
+                <li><a href="#activity">تعیین سظح دسترسی </a></li>
+            </ul>
+            <div class="tab-content">
+
+                <!-- /.tab-pane -->
+                <!-- /.tab-pane -->
+                <div class="" id="activity">
+                    <div class="form-horizontal">
+                        @*<div class="form-group">
+                                <label for="inputName" class="col-sm-2 control-label">نام و نام خانوادگی</label>
+                                <div class="col-sm-10">
+                                    <input required type="text" value="" name="fullname" class="form-control" id="inputName" placeholder="نام و نام خانوادگی">
+                                </div>
+                            </div>*@
+
+                        @*@using (Html.BeginForm("AddAuth", "Home", FormMethod.Post))
+                            {*@
+
+                        @foreach (var item in Model.GetValAuth)
+                        {
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-sm-2 control-label">@item.Title</label>
+                                <div class="col-sm-10">
+                                    @*<input required type="checkbox" value="" name="email" class="form-control" id="inputEmail" placeholder="ایمیل">*@
+                                    <input type="checkbox" name="chbox" class="checkbox checkbox-inline checked" value="@item.Id" />
+                                </div>
+                            </div>
+                        }
+
+                        @*<div class="form-group">
+                                <label for="inputName" class="col-sm-2 control-label">موبایل</label>
+                                <div class="col-sm-10">
+                                    <input required type="text" value="" name="tell" class="form-control" id="inputName" placeholder="موبایل">
+                                </div>
+                            </div>*@
+                        @*<div class="form-group">
+                                <label for="inputExperience" class="col-sm-2 control-label">آدرس</label>
+                                <div class="col-sm-10">
+                                    <textarea required name="address" class="form-control" id="inputExperience" placeholder="آدرس"></textarea>
+                                </div>
+                            </div>*@
+
+
+
+                        @*<div class="form-group">
+                                <label for="inputSkills" class="col-sm-2 control-label">سطوح دسترسی</label>
+                                <div class="col-sm-10">
+                                    <select id="EmpList" multiple="multiple" class="form-control">
+                                        <option value="value">text1</option>
+                                        <option value="value">text2</option>
+
+                                        <option value="value">text3</option>
+
+                                    </select>
+                                </div>
+                            </div>*@
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-danger">ثبت کاربر</button>
+                            </div>
+                        </div>
+                        @*}*@
+                    </div>
+
+
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div>
+        <!-- /.nav-tabs-custom -->
+    </div>
+}
+@*}*@
+

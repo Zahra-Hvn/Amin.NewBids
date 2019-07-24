@@ -1,0 +1,77 @@
+﻿@using DataLayer;
+@model List<Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ 
+
+<!-- Main row -->
+<div class="col-xs-12" onload='alert("توجه!!! پنل کاربری ادمین بصورت آزمایشی میباشد");'>
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">محصولات</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>نام محصول</th>
+                        <th>موجودی</th>
+                        <th>قیمت واحد </th>
+                        <th>جزئیات</th>
+                        <th>حذف محصول</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Stock</td>
+                            <td> @item.Price</td>
+                            <td> <a href="/Product/Details/?ProductId=@item.Id">مشاهده جزییات</a></td>
+                            <td> <a href="/Product/Details/?ProductId=@item.Id">حذف محصول</a></td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</div>
+
+<!-- /.row (main row) -->
+
+<script src="~/Content/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="~/Content/AdminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script src="~/Content/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="~/Content/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="~/Content/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="~/Content/AdminLTE/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="~/Content/AdminLTE/dist/js/demo.js"></script>
+
+<script>
+    $(function () {
+        $('#example1').DataTable();
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        });
+    })
+</script>
+

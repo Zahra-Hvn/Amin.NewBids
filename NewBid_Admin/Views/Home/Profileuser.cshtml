@@ -1,0 +1,193 @@
+﻿@using Datalayer.ViewModels
+@model Datalayer.ViewModels.vmMain
+@{
+    ViewBag.Title = "Profileuser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<!-- Content Header (Page header) -->
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="http://127.0.0.1/img/icones/@Model.userpro.Imageurl">
+                    <h3 class="profile-username text-center">@Model.userpro.FullName</h3>
+                    <p class="text-muted text-center">مهندس نرم افزار</p>
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>تعداد محصولات</b> <a class="pull-left">@Model.getallproduct.Count()</a>
+                        </li>
+                        <li class="list-group-item">
+
+                            <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-default"><b>مشاهده </b></a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- About Me Box -->
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        @using (Html.BeginForm("EditAdminUser", "Home", FormMethod.Post))
+        {
+
+            <div class="col-md-9">
+
+
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+
+                        <li><a href="#activity">اطلاعات هویتی</a></li>
+                    </ul>
+                    <div class="tab-content">
+
+                        <!-- /.tab-pane -->
+                        <!-- /.tab-pane -->
+                        <div class="" id="activity">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">نام و نام خانوادگی</label>
+                                    <div class="col-sm-10">
+                                        <input required type="text" value="@Model.userpro.FullName" name="fullname" class="form-control" id="inputName" placeholder="نام و نام خانوادگی">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">ایمیل</label>
+                                    <div class="col-sm-10">
+                                        <input required type="email" value="@Model.userpro.Username" name="email" class="form-control" id="inputEmail" placeholder="ایمیل">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">موبایل</label>
+                                    <div class="col-sm-10">
+                                        <input required type="text" value="@Model.userpro.Tell" name="tell" class="form-control" id="inputName" placeholder="موبایل">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputExperience" class="col-sm-2 control-label">آدرس</label>
+                                    <div class="col-sm-10">
+                                        <textarea required name="address" class="form-control" id="inputExperience" placeholder="آدرس">@Model.userpro.Address</textarea>
+                                    </div>
+                                </div>
+                                @*<div class="form-group">
+                                    <label for="inputSkills" class="col-sm-2 control-label">رمز</label>
+                                    <div class="col-sm-10">
+                                        <input required type="text" name="pass"
+                                               class="form-control" id="inputSkills" value="@Model.userpro.Pass" placeholder="رمز">
+                                    </div>
+                                </div>*@
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-danger">ثبت ویرایش</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+
+
+                <!-- /.nav-tabs-custom -->
+            </div>
+        }
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">محصولات</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>تاریخ</th>
+                                        <th>نام محصول</th>
+                                        <th>کارخانه</th>
+                                        <th>قیمت</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.getallproduct)
+                                    {
+                                        <tr>
+                                            <td>@(new Helpers().MiladiToShamsi(item.Date))</td>
+                                            <td>
+                                                @item.ProductTitle
+                                            </td>
+                                            <td>@item.FactoryTitle</td>
+                                            <td> @item.Price</td>
+                                            <td> <a href="/Home/detailes/?pid=@item.Id">مشاهده جزییات</a></td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script src="~/Content/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="~/Content/AdminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script src="~/Content/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="~/Content/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="~/Content/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="~/Content/AdminLTE/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="~/Content/AdminLTE/dist/js/demo.js"></script>
+
+<script>
+        $(function () {
+            $('#example1').DataTable();
+            //$('#example2').DataTable({
+            //    'paging': true,
+            //    'lengthChange': false,
+            //    'searching': false,
+            //    'ordering': true,
+            //    'info': true,
+            //    'autoWidth': false
+            //});
+        })
+</script>

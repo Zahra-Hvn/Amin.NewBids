@@ -1,0 +1,89 @@
+﻿@using DataLayer.ViewModels;
+@model List<ProductViewModel.ProductForDropDown>
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddAuction", "auction", FormMethod.Post))
+{
+    <div role="form">
+        <div class="box-body">
+            <div class="form-group">
+                <input type="hidden" name="Id" value="" />
+                <div class="form-group">
+                    <label>نام  محصول</label>
+                    <input type="text" required class="form-control" name="name" placeholder="name" />
+                </div>
+                <div class="form-group">
+                    <label>محصول</label>
+                    <select id="ostan" name="ProductId" class="form-control select2" style="width: 100%;">
+                        @foreach (var item in Model)
+                        {
+                            <option selected="selected" value="@item.Id">@item.Name</option>
+
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>زمان شروع مزایده</label>
+                    <div class="form-group">
+                        <span>روز </span><input type="text" class="datepicker" id="Date" name="Date" required />
+                        <span>ساعت</span> <input type="time" required class="" name="Auction_Time" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>زمان ریست مزایده </label>
+                    <input type="text" required class="form-control" name="Close_Time" />
+                </div>
+                <div class="form-group">
+                    <label> قیمت خرید محصول به تومان</label>
+                    <input type="text" required class="form-control" name="BuyPrice" />
+                </div>
+
+                <div class="form-group">
+                    <label> فعال </label>
+                    <input type="checkbox" required class="" checked name="IsActive" />
+                </div>
+
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="">
+
+            <button type="reset" id="btn_submit" class="btn btn-primary" href="/Product/Details" style="width:6%; margin: 0 5% 0 3%;">لغو</button>
+            <button type="submit" id="btn_submit" class="btn btn-primary" style="width:10%;">ارسال</button>
+        </div>
+    </div>
+}
+
+@*<script src="~/Scripts/jquery-3.3.1.min.js"></script>*@
+@*<script src="~/Scripts/jquery-3.3.1.js"></script>*@
+@*<script src="~/Scripts/jquery-3.4.1.min_2.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>*@
+@*<script src="~/Content/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>*@
+<!-- jQuery UI 1.11.4 -->
+@*<script src="~/Content/AdminLTE/bower_components/jquery-ui/jquery-ui.min.js"></script>*@
+<script type="text/javascript">
+    $(function () {
+        $("#Day").datepicker();
+    });
+        //$(function () { // will trigger when the document is ready
+        //    $('.datepicker').datepicker(); //Initialise any date pickers
+        //});
+
+        //var timepicker = new TimePicker('Day', {
+        //    lang: 'en',
+        //    theme: 'dark'
+        //});
+        //timepicker.on('change', function (evt) {
+
+        //    var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+        //    evt.element.value = value;
+
+        //});
+
+
+</script>
+

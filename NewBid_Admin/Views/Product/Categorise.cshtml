@@ -1,0 +1,137 @@
+﻿@using DataLayer
+@model List<Category>
+
+@{
+    ViewBag.Title = "Categorise";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@foreach (var item in Model)
+{
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">@item.ParentCategoryId</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>کد</th>
+                            <th>عنوان</th>
+
+                            <th></th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item2 in Model)
+                        {
+                            <tr>
+                                <td>@item2.Id</td>
+                                <td>
+                                    @item2.CategoryName
+                                </td>
+                                @using (Html.BeginForm("DeletesubCate", "Home", FormMethod.Post, new { @id = "frm" + item2.Id }))
+                                {
+                                    <td>
+                                        <button class="btn btn-danger" onclick="submitform(@item2.Id)">حذف </button>
+                                        <input type="hidden" name="id" value="@item2.Id" />
+                                    </td>
+
+
+                                }
+                                <td> <a href="/Home/EditSubCate/?id=@item2.Id">ویرایش </a></td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr></tr>
+                    </tfoot>
+                </table>
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+}
+<div>
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default">
+        دسته بندی جدید
+    </button>
+</div>
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">دسته بندی جدید</h4>
+            </div>
+            @using (Html.BeginForm("AddSubCategory", "Home", FormMethod.Post))
+            {
+                <div class="modal-body">
+
+                    <label>دسته بندی</label>
+                    <select id="fk" name="fid" class="form-control select2" style="width: 100%;">
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.Id" selected="selected">@item.CategoryName</option>
+                        }
+
+
+                    </select>
+                    <br />
+                    <input type="text" class="form-control" name="subCateTitle" value="" placeholder="عنوان دسته بندی" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خروج</button>
+                    <button type="submit" class="btn btn-primary">ذخیره</button>
+                </div>
+            }
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.row (main row) -->
+
+<script src="~/Content/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="~/Content/AdminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script src="~/Content/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="~/Content/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="~/Content/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="~/Content/AdminLTE/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="~/Content/AdminLTE/dist/js/demo.js"></script>
+
+<script>
+    $(function () {
+        $('#example1').DataTable();
+        //$('#example2').DataTable({
+        //    'paging': true,
+        //    'lengthChange': false,
+        //    'searching': false,
+        //    'ordering': true,
+        //    'info': true,
+        //    'autoWidth': false
+        //});
+    })
+</script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    function submitform(delId) {
+        $("#frm" + delId).submitform();
+    }
+</script>

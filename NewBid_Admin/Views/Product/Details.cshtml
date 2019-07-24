@@ -1,0 +1,136 @@
+﻿@model DataLayer.Product
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">اطلاعات محصول</h3>
+    </div>
+    <div role="form">
+        <div class="box-body">
+
+            <div class="form-group">
+                <img style="height:150px;width:200px;" src="@Model.Image" alt="Alternate Text" />
+            </div>
+            <div class="form-group">
+                نام محصول: @Model.Name
+            </div>
+            <div class="form-group">
+                شرکت تولید کننده:@Model.Brand
+            </div>
+            <div class="form-group">
+                قیمت محصول:@Model.Price
+            </div>
+            <div class="form-group">
+                موجودی:@Model.Stock
+            </div>
+
+            <br />
+            @using (Html.BeginForm("DeleteProduct", "Product", FormMethod.Post))
+            {
+                <input type="hidden" name="DProduct" value="@Model.Id" />
+                <input type="submit" name="name" value="حذف محصول" class="btn btn-danger" />
+                <br />
+                @*@ViewBag.err*@
+            }
+        </div>
+    </div>
+</div>
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">ویرایش محصول</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    @using (Html.BeginForm("UpDateProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div role="form">
+            <div class="box-body">
+                <div class="form-group">
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    <div class="form-group">
+                        <label>نام  محصول</label>
+                        <input type="text" required class="form-control" name="name" value="@Model.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label>دسته بندی</label>
+                        <input type="text" required class="form-control" name="name" value="@Model.Name" />
+                        <select id="sh" name="shid" class="form-control select2" style="width: 100%;">
+                            <option id="h" value="@Model.Brand" selected="selected">انتخاب نشده</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>شرکت تولید کننده</label>
+                        <input type="text" required class="form-control" name="Brand" value="@Model.Brand" />
+                    </div>
+                    <div class="form-group">
+                        <label> قیمت  محصول به تومان</label>
+                        <input type="text" required class="form-control" name="price" value="@Model.Price" />
+                    </div>
+                    <div class="form-group">
+                        <label>تعداد </label>
+                        <input type="text" required class="form-control" name="stock" value="@Model.Stock" />
+                    </div>
+                    <div class="form-group">
+                        <label>عکس محصول </label>
+                        <input type="text" required class="form-control" name="Img" value="@Model.Image" />
+                    </div>
+                    <div id="Add_Image">
+                        <label> ارسال عکس جدید</label>
+                        <div class="row" id="1">
+                            <div class="col-md-4 px-1" style="width: 75%;">
+                                <div class="form-group">
+                                    <input type="file" required class="form-control" name="Img" placeholder="Img" />
+                                </div>
+                            </div>
+                            <div class="col-md-4 px-1" style="width: 10%;">
+                                <input type="button" id="add" onclick="AddFunction();" value="+" />
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+            <label for="exampleInputFile">ارسال عکس</label>
+
+            <input name="image4" type="file" id="exampleInputFile">
+        </div>*@
+
+                    <div class="form-group">
+                        <label>سال تولید </label>
+                        <input type="text" required class="form-control" name="Model_Year" value="@Model.Model_Year" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>توضیحات محصول</label>
+                        <!-- tools box -->
+                        <!-- /. tools -->
+                        <!-- /.box-header -->
+                        @*<div class="box-body pad">
+                <div>
+                    <textarea required name="Caption" id="mytextarea" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">توضیحات محصول </textarea>
+                </div>
+            </div>*@
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" id="btn_submit" class="btn btn-primary">ارسال</button>
+            </div>
+        </div>
+    }
+    @*<img src="D://myimage/photo_2019-01-21_06-07-40.jpg_Product_1007.jpg" alt="Alternate Text" />*@
+</div>
+<script type="text/javascript">
+    function AddFunction() {
+        var html = '<div class="row" id="2"><div class="col-md-4 px-1" style="width: 75%;"><div class="form-group"><input type="file" required class="form-control" name="Img" placeholder="Img" /></div></div><div class="col-md-4 px-1" style="width: 10%;"><input type="button" id="add" onclick="$(this).parent().parent().remove();" value="x" /></div></div>';
+        $('#Add_Image').append(html);
+    };
+    function Remove() {
+        $('#2').remove();
+    }
+</script>
