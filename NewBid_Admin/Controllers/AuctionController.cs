@@ -27,6 +27,11 @@ namespace NewBid_Admin.Controllers
         public ActionResult AddAuction()
         {
             var allProduct = ProRepo.GetProForDop();
+            var persianDateTime = new PersianDateTime(DateTime.Now);
+            ViewBag.PDate = persianDateTime.Date;
+            ViewBag.PTime = persianDateTime.GetTime();
+            string PersianDate = persianDateTime.ToLongDateTimeString();
+
             return View(allProduct);
         }
         [HttpPost]
